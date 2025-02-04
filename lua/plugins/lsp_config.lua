@@ -12,7 +12,7 @@ return {
 			"L3MON4D3/LuaSnip", -- 代码片段引擎
 			"saadparwaiz1/cmp_luasnip", -- LuaSnip 补全源
 			"jose-elias-alvarez/null-ls.nvim",
-			"nvim-lua/plenary.nvim"
+			"nvim-lua/plenary.nvim",
 		},
 		config = function()
 			-- 加载 Mason 并配置
@@ -21,8 +21,7 @@ return {
 				ensure_installed = { "gopls" }, -- 确保 gopls 已安装
 			})
 
-
-			local capabilities = require('cmp_nvim_lsp').default_capabilities()
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 			-- 加载 lspconfig 并配置 gopls
 			local lspconfig = require("lspconfig")
@@ -69,8 +68,7 @@ return {
 				}),
 			})
 
-
-			local null_ls = require('null-ls')
+			local null_ls = require("null-ls")
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua,
@@ -107,6 +105,44 @@ return {
 						vim.lsp.buf.format({ async = true })
 					end, opts)
 				end,
+			})
+
+			vim.fn.sign_define({
+				{
+					name = "DiagnosticSignError",
+					text = "", -- 错误图标（需要支持图标的字体，如 Nerd Font）
+					texthl = "DiagnosticSignError", -- 高亮组（颜色）
+					linehl = "",
+					numhl = "",
+				},
+				{
+					name = "DiagnosticSignWarn",
+					text = "", -- 警告图标
+					texthl = "DiagnosticSignWarn",
+					linehl = "",
+					numhl = "",
+				},
+				{
+					name = "DiagnosticSignInfo",
+					text = "", -- 信息图标
+					texthl = "DiagnosticSignInfo",
+					linehl = "",
+					numhl = "",
+				},
+				{
+					name = "DiagnosticSignHint",
+					text = "", -- 提示图标
+					texthl = "DiagnosticSignHint",
+					linehl = "",
+					numhl = "",
+				},
+			})
+
+			-- 设置诊断符号的显示方式
+			vim.diagnostic.config({
+				signs = true, -- 启用诊断符号
+				virtual_text = false, -- 禁用行内虚拟文本（可选）
+				update_in_insert = false, -- 不在插入模式下更新诊断
 			})
 		end,
 	},
