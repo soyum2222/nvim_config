@@ -144,6 +144,7 @@ return {
 				virtual_text = false, -- 禁用行内虚拟文本（可选）
 				update_in_insert = false, -- 不在插入模式下更新诊断
 			})
+			-- General/Global LSP Configuration
 		end,
 	},
 }
