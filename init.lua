@@ -106,13 +106,13 @@ else
 
 	vim.cmd([[noremap <C-r> :%s/]])
 	vim.cmd([[vmap <C-r> :s/]])
--- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
-vim.cmd([[noremap <leader>q :q!<cr>]])
---vim.cmd([[noremap <C-s> :lua require('conform').format() <cr>]])
---vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
---vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
-vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
-vim.cmd([[noremap <C-s> <cmd>lua FileFmt()<CR>]])
+	-- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
+	vim.cmd([[noremap <leader>q :q!<cr>]])
+	--vim.cmd([[noremap <C-s> :lua require('conform').format() <cr>]])
+	--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
+	--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
+	vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
+	vim.cmd([[noremap <C-s> <cmd>lua FileFmt()<CR>]])
 
 	-- go map
 
@@ -128,18 +128,15 @@ vim.cmd([[noremap <C-s> <cmd>lua FileFmt()<CR>]])
 	--vim.cmd([[nnoremap <leader><F1> <cmd>Neotree reveal<cr>]])
 	vim.cmd([[nnoremap <leader><F1> <cmd>NvimTreeFindFile<cr>]])
 
-vim.cmd([[map <A-/> <plug>NERDCommenterToggle]])
-vim.cmd([[map ÷ <plug>NERDCommenterToggle]])
+	vim.cmd([[map <A-/> <plug>NERDCommenterToggle]])
+	vim.cmd([[map ÷ <plug>NERDCommenterToggle]])
 
-
-
-
-vim.cmd([[nnoremap <leader>ff <cmd>FzfLua lgrep_curbuf <cr>]])
---vim.cmd([[nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep({cwd=FilePath()})<cr>]])
-vim.cmd([[nnoremap <leader><C-f> <cmd>FzfLua live_grep<cr>]])
---vim.cmd([[nnoremap <leader><C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>]])
-vim.cmd([[nnoremap <leader>f <cmd>FzfLua files<cr>]])
---vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
+	vim.cmd([[nnoremap <leader>ff <cmd>FzfLua lgrep_curbuf <cr>]])
+	--vim.cmd([[nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep({cwd=FilePath()})<cr>]])
+	vim.cmd([[nnoremap <leader><C-f> <cmd>FzfLua live_grep<cr>]])
+	--vim.cmd([[nnoremap <leader><C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>]])
+	vim.cmd([[nnoremap <leader>f <cmd>FzfLua files<cr>]])
+	--vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
 
 	vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
 
@@ -176,75 +173,75 @@ vim.cmd([[nnoremap <leader>f <cmd>FzfLua files<cr>]])
 		vim.api.nvim_command("tabnext")
 	end
 
-vim.g.neovide_input_use_logo = 1
-vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.g.neovide_input_use_logo = 1
+	vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 
-vim.api.nvim_set_keymap("", "<S-Insert>", "+p<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("!", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("", "<S-Insert>", "+p<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("!", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
 
-function tabnew()
-	last_tab = vim.api.nvim_get_current_tabpage()
-	vim.api.nvim_command("tabnew")
-end
+	function tabnew()
+		last_tab = vim.api.nvim_get_current_tabpage()
+		vim.api.nvim_command("tabnew")
+	end
 
-function tabnext()
-	last_tab = vim.api.nvim_get_current_tabpage()
-	vim.api.nvim_command("tabnext")
-end
+	function tabnext()
+		last_tab = vim.api.nvim_get_current_tabpage()
+		vim.api.nvim_command("tabnext")
+	end
 
-function tabprev()
-	last_tab = vim.api.nvim_get_current_tabpage()
-	vim.api.nvim_command("tabprev")
-end
+	function tabprev()
+		last_tab = vim.api.nvim_get_current_tabpage()
+		vim.api.nvim_command("tabprev")
+	end
 
-function tabswitch()
-	local_last_tab = vim.api.nvim_get_current_tabpage()
-	vim.api.nvim_set_current_tabpage(last_tab)
-	last_tab = local_last_tab
-end
+	function tabswitch()
+		local_last_tab = vim.api.nvim_get_current_tabpage()
+		vim.api.nvim_set_current_tabpage(last_tab)
+		last_tab = local_last_tab
+	end
 
-function bufnext()
-	last_buffer = vim.fn.bufnr("%")
-	print(last_buffer)
-	vim.api.nvim_command("BufferNext")
-end
+	function bufnext()
+		last_buffer = vim.fn.bufnr("%")
+		print(last_buffer)
+		vim.api.nvim_command("BufferNext")
+	end
 
-function bufprev()
-	last_buffer = vim.fn.bufnr("%")
-	print(last_buffer)
+	function bufprev()
+		last_buffer = vim.fn.bufnr("%")
+		print(last_buffer)
 
-	vim.api.nvim_command("BufferPrevious")
-end
+		vim.api.nvim_command("BufferPrevious")
+	end
 
--- 切换到上一次的标签页
-function bufswitch()
-	local_last_buffer = vim.fn.bufnr("%")
-	vim.cmd("buffer " .. last_buffer)
-	last_buffer = local_last_buffer
-end
+	-- 切换到上一次的标签页
+	function bufswitch()
+		local_last_buffer = vim.fn.bufnr("%")
+		vim.cmd("buffer " .. last_buffer)
+		last_buffer = local_last_buffer
+	end
 
-function FileFmt()
-	require("conform").format({
-		async = true,
-		lsp_fallback = true,
-	}, function()
-		print("Formatting completed!")
-	end)
-	--local file_type = vim.bo.filetype
-	--if file_type == "go" then
-	--        require("go.format").goimports()
-	--        return
-	--end
+	function FileFmt()
+		require("conform").format({
+			async = true,
+			lsp_fallback = true,
+		}, function()
+			print("Formatting completed!")
+		end)
+		--local file_type = vim.bo.filetype
+		--if file_type == "go" then
+		--        require("go.format").goimports()
+		--        return
+		--end
 
-	--vim.lsp.buf.format({ async = true })
-	--vim.api.nvim_exec([[call CocActionAsync('format')]], true)
-	--vim.api.nvim_exec([[update]], true)
-end
+		--vim.lsp.buf.format({ async = true })
+		--vim.api.nvim_exec([[call CocActionAsync('format')]], true)
+		--vim.api.nvim_exec([[update]], true)
+	end
 
 	function tabprev()
 		last_tab = vim.api.nvim_get_current_tabpage()
