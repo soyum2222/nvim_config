@@ -98,8 +98,12 @@ vim.cmd([[ vnoremap <C-u> 15k]])
 
 -- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
 vim.cmd([[noremap <leader>q :q!<cr>]])
-vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
+--vim.cmd([[noremap <C-s> :lua require('conform').format() <cr>]])
+--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
+--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
 vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
+vim.cmd([[noremap <C-s> <cmd>lua FileFmt()<CR>]])
+
 
 vim.cmd([[noremap <C-r> :%s/]])
 vim.cmd([[vmap <C-r> :s/]])
@@ -111,9 +115,16 @@ vim.cmd([[noremap <leader>` :GoAddTags json yaml<CR>]])
 
 vim.cmd([[map <A-/> <plug>NERDCommenterToggle]])
 vim.cmd([[map ÷ <plug>NERDCommenterToggle]])
-vim.cmd([[nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep({cwd=FilePath()})<cr>]])
-vim.cmd([[nnoremap <leader><C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>]])
-vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
+
+
+
+
+vim.cmd([[nnoremap <leader>ff <cmd>FzfLua lgrep_curbuf <cr>]])
+--vim.cmd([[nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep({cwd=FilePath()})<cr>]])
+vim.cmd([[nnoremap <leader><C-f> <cmd>FzfLua live_grep<cr>]])
+--vim.cmd([[nnoremap <leader><C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>]])
+vim.cmd([[nnoremap <leader>f <cmd>FzfLua files<cr>]])
+--vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
 
 --vim.cmd([[nnoremap <leader><F1> <cmd>Neotree reveal<cr>]])
 vim.cmd([[nnoremap <leader><F1> <cmd>NvimTreeFindFile<cr>]])
@@ -124,7 +135,6 @@ vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<
 vim.cmd([[noremap  :tabnew<CR>]])
 vim.cmd([[noremap tabp<CR>]])
 vim.cmd([[noremap  :tabn<CR>]])
-
 
 vim.cmd([[nnoremap † :ToggleTerm<cr>]])
 vim.cmd([[nnoremap <A-t> :ToggleTerm<cr>]])
@@ -186,13 +196,19 @@ function bufswitch()
 end
 
 function FileFmt()
-	local file_type = vim.bo.filetype
-	if file_type == "go" then
-		require("go.format").goimports()
-		return
-	end
+	require("conform").format({
+		async = true,
+		lsp_fallback = true,
+	}, function()
+		print("Formatting completed!")
+	end)
+	--local file_type = vim.bo.filetype
+	--if file_type == "go" then
+	--        require("go.format").goimports()
+	--        return
+	--end
 
-	vim.lsp.buf.format({ async = true })
+	--vim.lsp.buf.format({ async = true })
 	--vim.api.nvim_exec([[call CocActionAsync('format')]], true)
 	--vim.api.nvim_exec([[update]], true)
 end
