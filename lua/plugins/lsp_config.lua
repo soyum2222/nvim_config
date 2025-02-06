@@ -73,8 +73,8 @@ return {
 				sources = {
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.goimports,
-					null_ls.builtins.formatting.autopep8,
-					-- null_ls.builtins.formatting.autoflake,
+					null_ls.builtins.formatting.isort,
+					 --null_ls.builtins.formatting.autoflake,
 				},
 			})
 
