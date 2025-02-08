@@ -1,5 +1,6 @@
 if vim.g.vscode then
 	-- VSCode extension
+	require("config.lazy")
 else
 	local api = vim.api
 	local lsp = vim.lsp
@@ -47,11 +48,9 @@ else
 	vim.cmd([[set termguicolors ]])
 	vim.cmd([[set cursorline]])
 
-	vim.cmd([[highlight CursorLine cterm=NONE ctermbg=DarkCyan guibg=#718871]])
+	--vim.cmd([[highlight CursorLine cterm=NONE ctermbg=DarkCyan guibg=#718871]])
 
 	--vim.cmd [[colorscheme tokyonight]]
-
-	vim.cmd.colorscheme("vscode")
 
 	--vim.cmd([[ nnoremap <F2> :Neotree toggle<cr> ]])
 	vim.cmd([[ nnoremap <F2> :NvimTreeToggle<cr> ]])
@@ -92,6 +91,7 @@ else
 	)
 
 	vim.cmd([[ noremap <leader>g :G<CR>]])
+	vim.cmd([[ noremap <leader>gbl :BlameToggle virtual<CR>]])
 
 	vim.cmd([[ noremap <leader>im :lua require'telescope'.extensions.goimpl.goimpl{}<CR>]])
 	vim.cmd([[ nnoremap <C-d> 15j]])
@@ -100,14 +100,13 @@ else
 	vim.cmd([[ vnoremap <C-u> 15k]])
 
 	-- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
-	vim.cmd([[noremap <leader>q :q!<cr>]])
+	vim.cmd([[noremap <leader>q :BufferClose<cr>]])
 	vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
 	vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
 
 	vim.cmd([[noremap <C-r> :%s/]])
 	vim.cmd([[vmap <C-r> :s/]])
 	-- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
-	vim.cmd([[noremap <leader>q :q!<cr>]])
 	--vim.cmd([[noremap <C-s> :lua require('conform').format() <cr>]])
 	--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
 	--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
@@ -163,6 +162,7 @@ else
 	vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
 	vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
 
+
 	function tabnew()
 		last_tab = vim.api.nvim_get_current_tabpage()
 		vim.api.nvim_command("tabnew")
@@ -173,16 +173,6 @@ else
 		vim.api.nvim_command("tabnext")
 	end
 
-	vim.g.neovide_input_use_logo = 1
-	vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-
-	vim.api.nvim_set_keymap("", "<S-Insert>", "+p<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("!", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
 
 	function tabnew()
 		last_tab = vim.api.nvim_get_current_tabpage()
@@ -226,20 +216,30 @@ else
 	end
 
 	function FileFmt()
+
+
+		-- for conform
 		require("conform").format({
 			async = true,
 			lsp_fallback = true,
 		}, function()
 			print("Formatting completed!")
 		end)
+
+
+		-- for lspconfig
+		--vim.lsp.buf.format({ async = true })
+
+
+		-- for coc.nvim
 		--local file_type = vim.bo.filetype
 		--if file_type == "go" then
 		--        require("go.format").goimports()
 		--        return
 		--end
 
-		--vim.lsp.buf.format({ async = true })
 		--vim.api.nvim_exec([[call CocActionAsync('format')]], true)
+
 		--vim.api.nvim_exec([[update]], true)
 	end
 
@@ -322,7 +322,7 @@ else
 		end,
 		on_submit = function(item)
 			if item.text == "Git blame" then
-				vim.cmd("BlameToggle")
+				vim.cmd("BlameToggle virtual")
 			end
 			if item.text == "Git diffview file history" then
 				vim.cmd("DiffviewFileHistory %")
@@ -336,6 +336,7 @@ else
 	function GitUi()
 		git_menu:mount()
 	end
+
 
 	vim.api.nvim_create_user_command("Ui", function(opts)
 		local arg = opts.args

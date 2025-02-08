@@ -26,6 +26,13 @@ return {
 				topdelete = { text = "" },
 				changedelete = { text = "▎" },
 			},
+
+			signs_staged_enable = true,
+			signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+			numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+			linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+			word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+
 			on_attach = function(buffer)
 				local gs = package.loaded.gitsigns
 
@@ -82,5 +89,40 @@ return {
 	{
 
 		"tpope/vim-fugitive",
+	},
+
+	{
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			-- Only one of these is needed.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+			"echasnovski/mini.pick", -- optional
+		},
+		config = true,
+	},
+
+	{
+		"kdheepak/lazygit.nvim",
+		lazy = true,
+		cmd = {
+			"LazyGit",
+			"LazyGitConfig",
+			"LazyGitCurrentFile",
+			"LazyGitFilter",
+			"LazyGitFilterCurrentFile",
+		},
+		-- optional for floating window border decoration
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		-- setting the keybinding for LazyGit with 'keys' is recommended in
+		-- order to load the plugin when the command is run for the first time
+		keys = {
+			{ "<leader>gg", "<cmd>LazyGitFilterCurrentFile<cr>", desc = "LazyGit" },
+		},
 	},
 }

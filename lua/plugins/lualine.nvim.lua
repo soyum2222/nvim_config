@@ -43,6 +43,7 @@ return {
 			winbar = {},
 			inactive_winbar = {},
 			extensions = {}
+
 		}
 		)
 	end,
