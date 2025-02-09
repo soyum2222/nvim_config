@@ -99,7 +99,7 @@ else
 	vim.cmd([[ nnoremap <C-u> 15k]])
 	vim.cmd([[ vnoremap <C-u> 15k]])
 
-	-- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
+	--vim.cmd([[noremap <leader><F6> :lua vim.lsp.buf.rename()<CR>]])
 	vim.cmd([[noremap <leader>q :BufferClose<cr>]])
 	vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
 	vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
@@ -144,8 +144,8 @@ else
 	vim.cmd([[noremap tabp<CR>]])
 	vim.cmd([[noremap  :tabn<CR>]])
 
-	vim.cmd([[nnoremap † :ToggleTerm<cr>]])
-	vim.cmd([[nnoremap <A-t> :ToggleTerm<cr>]])
+	vim.cmd([[nnoremap † :lua Snacks.terminal()<cr>]])
+	vim.cmd([[nnoremap <A-t> :lua Snacks.terminal()<cr>]])
 
 	vim.cmd(
 		[[command DebugW lua local widgets = require('dap.ui.widgets');local my_sidebar = widgets.sidebar(widgets.scopes);my_sidebar.open();local widgets = require('dap.ui.widgets');local my_sidebar = widgets.sidebar(widgets.frames);my_sidebar.open();]]
@@ -162,7 +162,6 @@ else
 	vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
 	vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
 
-
 	function tabnew()
 		last_tab = vim.api.nvim_get_current_tabpage()
 		vim.api.nvim_command("tabnew")
@@ -172,7 +171,6 @@ else
 		last_tab = vim.api.nvim_get_current_tabpage()
 		vim.api.nvim_command("tabnext")
 	end
-
 
 	function tabnew()
 		last_tab = vim.api.nvim_get_current_tabpage()
@@ -216,8 +214,6 @@ else
 	end
 
 	function FileFmt()
-
-
 		-- for conform
 		require("conform").format({
 			async = true,
@@ -226,10 +222,8 @@ else
 			print("Formatting completed!")
 		end)
 
-
 		-- for lspconfig
 		--vim.lsp.buf.format({ async = true })
-
 
 		-- for coc.nvim
 		--local file_type = vim.bo.filetype
@@ -336,7 +330,6 @@ else
 	function GitUi()
 		git_menu:mount()
 	end
-
 
 	vim.api.nvim_create_user_command("Ui", function(opts)
 		local arg = opts.args

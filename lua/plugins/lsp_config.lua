@@ -15,7 +15,6 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
-
 			local builtin = require("telescope.builtin")
 			-- 加载 Mason 并配置
 			require("mason").setup()
@@ -76,7 +75,7 @@ return {
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.goimports,
 					null_ls.builtins.formatting.isort,
-					 --null_ls.builtins.formatting.autoflake,
+					--null_ls.builtins.formatting.autoflake,
 				},
 			})
 
