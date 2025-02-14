@@ -23,6 +23,7 @@ else
 	set clipboard=unnamed
 	"set relativenumber
 	set number
+	set tabstop=8
 	set incsearch
 	set mouse=a
 	set fileencodings=utf-8,gbk
@@ -69,13 +70,17 @@ else
 
 	vim.cmd([[ noremap <leader>= :lua tabnext()<CR>]])
 
-	vim.cmd([[ noremap <A--> :lua bufprev()<CR>]])
+	vim.cmd([[ noremap <A--> <cmd>lua bufprev()<CR>]])
+	vim.cmd([[ inoremap <A--> <cmd>lua bufprev()<CR>]])
 
-	vim.cmd([[ noremap <A-=> :lua bufnext()<CR>]])
+	vim.cmd([[ noremap <A-=> <cmd>lua bufnext()<CR>]])
+	vim.cmd([[ inoremap <A-=> <cmd>lua bufnext()<CR>]])
 
-	vim.cmd([[ noremap ≠ :lua bufnext()<CR>]])
+	vim.cmd([[ noremap ≠ <cmd>lua bufnext()<CR>]])
+	vim.cmd([[ inoremap ≠ <cmd>lua bufnext()<CR>]])
 
-	vim.cmd([[ noremap – :lua bufprev()<CR>]])
+	vim.cmd([[ noremap – <cmd>lua bufprev()<CR>]])
+	vim.cmd([[ inoremap – <cmd>lua bufprev()<CR>]])
 
 	vim.cmd([[ noremap <leader><tab> :lua bufswitch()<CR>]])
 
@@ -104,8 +109,8 @@ else
 	vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
 	vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
 
-	vim.cmd([[noremap <C-r> :%s/]])
-	vim.cmd([[vmap <C-r> :s/]])
+	vim.cmd([[noremap <C-r> :lua require('grug-far').open({ prefills = { paths = vim.fn.expand("%") } }) <CR>]])
+	vim.cmd([[vmap <C-r> :lua require('grug-far').with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) <CR> ]])
 	-- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
 	--vim.cmd([[noremap <C-s> :lua require('conform').format() <cr>]])
 	--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])
@@ -122,7 +127,7 @@ else
 	vim.cmd([[map ÷ <plug>NERDCommenterToggle]])
 	vim.cmd([[nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep({cwd=FilePath()})<cr>]])
 	vim.cmd([[nnoremap <leader><C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>]])
-	vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
+	--vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
 
 	--vim.cmd([[nnoremap <leader><F1> <cmd>Neotree reveal<cr>]])
 	vim.cmd([[nnoremap <leader><F1> <cmd>NvimTreeFindFile<cr>]])
@@ -134,10 +139,10 @@ else
 	--vim.cmd([[nnoremap <C-f> <cmd>lua require('telescope.builtin').live_grep({cwd=FilePath()})<cr>]])
 	vim.cmd([[nnoremap <leader><C-f> <cmd>FzfLua live_grep<cr>]])
 	--vim.cmd([[nnoremap <leader><C-f> <cmd>lua require('telescope.builtin').live_grep()<cr>]])
-	vim.cmd([[nnoremap <leader>f <cmd>FzfLua files<cr>]])
-	--vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
-
+	--vim.cmd([[nnoremap <leader>f <cmd>FzfLua files<cr>]])
 	vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
+
+	--vim.cmd([[nnoremap <leader>f <cmd>lua require('telescope.builtin').find_files()<cr>]])
 
 	-- compatible windows terminal
 	vim.cmd([[noremap  :tabnew<CR>]])

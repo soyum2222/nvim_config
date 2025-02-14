@@ -92,8 +92,32 @@ return {
 		{
 			"<leader>gg",
 			function()
+				local function get_root(cwd)
+					local status, job = pcall(require, "plenary.job")
+					if not status then
+						return fn.system("git rev-parse --show-toplevel")
+					end
+
+					local gitroot_job = job:new({
+						"git",
+						"rev-parse",
+						"--show-toplevel",
+						cwd = cwd,
+					})
+
+					local path, code = gitroot_job:sync()
+					if code ~= 0 then
+						return nil
+					end
+
+					return table.concat(path, "")
+				end
+
 				local path = vim.fn.expand("%:p:h")
-				Snacks.terminal({ 'lazygit', '-p' , path }, {})
+
+				path = get_root(path)
+
+				Snacks.terminal({ "lazygit", "-p", path }, {})
 			end,
 			desc = "Lazygit",
 		},

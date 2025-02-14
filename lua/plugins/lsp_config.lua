@@ -76,6 +76,7 @@ return {
 					null_ls.builtins.formatting.goimports,
 					null_ls.builtins.formatting.isort,
 					--null_ls.builtins.formatting.autoflake,
+					null_ls.builtins.formatting.fixjson,
 				},
 			})
 
