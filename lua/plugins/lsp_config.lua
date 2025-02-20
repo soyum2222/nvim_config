@@ -30,13 +30,80 @@ return {
 				capabilities = capabilities,
 				settings = {
 					gopls = {
-						analyses = {
-							unusedparams = true,
+						--analyses = {
+						--        unusedparams = true, -- 启用未使用参数检查
+						--        shadow = true, -- 启用变量遮蔽检查
+						--        nilness = true, -- 启用 nil dereference 检查
+						--        printf = true, -- 启用格式化字符串检查
+						--        composites = true, -- 启用未使用的结构体字段检查
+						--        unreachable = true, -- 启用无法访问的代码检查
+						--        deprecated = true, -- 启用已弃用 API 检查
+						--        unusedresult=true,
+						--},
+						--staticcheck = true,
+
+						gofumpt = true,
+						codelenses = {
+							gc_details = false,
+							generate = true,
+							regenerate_cgo = true,
+							run_govulncheck = true,
+							test = true,
+							tidy = true,
+							upgrade_dependency = true,
+							vendor = true,
 						},
+						hints = {
+							assignVariableTypes = true,
+							compositeLiteralFields = true,
+							compositeLiteralTypes = true,
+							constantValues = true,
+							functionTypeParameters = true,
+							parameterNames = true,
+							rangeVariableTypes = true,
+						},
+						analyses = {
+							fieldalignment = true,
+							nilness = true,
+							unusedparams = true,
+							unusedwrite = true,
+							useany = true,
+							unusedresult=true,
+						},
+						usePlaceholders = true,
+						completeUnimported = true,
 						staticcheck = true,
+						directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules", "-.nvim" },
+						semanticTokens = true,
 					},
 				},
 			})
+
+			local configs = require("lspconfig/configs")
+
+			if not configs.golangcilsp then
+				configs.golangcilsp = {
+					default_config = {
+						cmd = { "golangci-lint-langserver" },
+						root_dir = lspconfig.util.root_pattern(".git", "go.mod"),
+						init_options = {
+							command = { "golangci-lint", "run", "--out-format", "json", "--issues-exit-code=1" },
+						},
+					},
+				}
+			end
+			lspconfig.golangci_lint_ls.setup({
+				filetypes = { "go", "gomod" },
+			})
+
+			--lspconfig.golangci_lint_ls.setup({
+			--        cmd = { "golangci-lint", "run", "--out-format=json", "-" },
+			--        root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
+			--        filetypes = { "go" },
+			--        init_options = {
+			--                command = "golangci-lint",
+			--        },
+			--})
 
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,

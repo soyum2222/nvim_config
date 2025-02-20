@@ -38,6 +38,8 @@ else
 	hi link NvimTreeImageFile   Title
 	]])
 
+	vim.g.snacks_animate = false
+
 	vim.keymap.set("n", "]g", function()
 		vim.diagnostic.goto_next()
 	end, { desc = "Go to next diagnostic" })
