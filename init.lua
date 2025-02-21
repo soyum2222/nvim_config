@@ -17,6 +17,7 @@ else
 		return caps
 	end
 
+
 	require("config.lazy")
 
 	vim.cmd([[
@@ -37,6 +38,10 @@ else
 	hi      NvimTreeSymlink     guifg=Yellow  gui=italic
 	hi link NvimTreeImageFile   Title
 	]])
+
+	vim.keymap.set("n", "[c", function()
+		require("treesitter-context").go_to_context(vim.v.count1)
+	end, { silent = true })
 
 	vim.g.snacks_animate = false
 
@@ -112,7 +117,9 @@ else
 	vim.cmd([[imap <C-s> <cmd>lua FileFmt()<CR>]])
 
 	vim.cmd([[noremap <C-r> :lua require('grug-far').open({ prefills = { paths = vim.fn.expand("%") } }) <CR>]])
-	vim.cmd([[vmap <C-r> :lua require('grug-far').with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) <CR> ]])
+	vim.cmd(
+		[[vmap <C-r> :lua require('grug-far').with_visual_selection({ prefills = { paths = vim.fn.expand("%") } }) <CR> ]]
+	)
 	-- vim.cmd([[ nmap <leader><F6> <Plug>(coc-rename)]])
 	--vim.cmd([[noremap <C-s> :lua require('conform').format() <cr>]])
 	--vim.cmd([[noremap <C-s> :lua vim.lsp.buf.format({ async = true })<CR>]])

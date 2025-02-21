@@ -13,9 +13,41 @@ return {
 			"saadparwaiz1/cmp_luasnip", -- LuaSnip 补全源
 			"jose-elias-alvarez/null-ls.nvim",
 			"nvim-lua/plenary.nvim",
+			"rafamadriz/friendly-snippets",
 		},
 		config = function()
+			require("luasnip.loaders.from_vscode").lazy_load()
+
 			local builtin = require("telescope.builtin")
+
+			local snip = require("luasnip")
+
+			-- 自动补全配置
+			local cmp = require("cmp")
+			cmp.setup({
+
+				--preselect = cmp.PreselectMode.Item,
+				preselect = cmp.PreselectMode.None,
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body)
+					end,
+				},
+				mapping = cmp.mapping.preset.insert({
+					["<A-b>"] = cmp.mapping.scroll_docs(-4),
+					["<A-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+				}),
+				sources = cmp.config.sources({
+					{ name = "luasnip" }, -- 代码片段
+					{ name = "nvim_lsp" }, -- LSP 补全
+					{ name = "buffer" }, -- 缓冲区补全
+					{ name = "path" }, -- 路径补全
+				}),
+			})
+
 			-- 加载 Mason 并配置
 			require("mason").setup()
 			require("mason-lspconfig").setup({
@@ -30,17 +62,17 @@ return {
 				capabilities = capabilities,
 				settings = {
 					gopls = {
-						--analyses = {
-						--        unusedparams = true, -- 启用未使用参数检查
-						--        shadow = true, -- 启用变量遮蔽检查
-						--        nilness = true, -- 启用 nil dereference 检查
-						--        printf = true, -- 启用格式化字符串检查
-						--        composites = true, -- 启用未使用的结构体字段检查
-						--        unreachable = true, -- 启用无法访问的代码检查
-						--        deprecated = true, -- 启用已弃用 API 检查
-						--        unusedresult=true,
-						--},
-						--staticcheck = true,
+						analyses = {
+							unusedparams = true, -- 启用未使用参数检查
+							shadow = true, -- 启用变量遮蔽检查
+							nilness = true, -- 启用 nil dereference 检查
+							printf = true, -- 启用格式化字符串检查
+							composites = true, -- 启用未使用的结构体字段检查
+							unreachable = true, -- 启用无法访问的代码检查
+							deprecated = true, -- 启用已弃用 API 检查
+							unusedresult = true,
+						},
+						staticcheck = true,
 
 						gofumpt = true,
 						codelenses = {
@@ -62,17 +94,16 @@ return {
 							parameterNames = true,
 							rangeVariableTypes = true,
 						},
-						analyses = {
-							fieldalignment = true,
-							nilness = true,
-							unusedparams = true,
-							unusedwrite = true,
-							useany = true,
-							unusedresult=true,
-						},
+						--analyses = {
+						--        fieldalignment = true,
+						--        nilness = true,
+						--        unusedparams = true,
+						--        unusedwrite = true,
+						--        useany = true,
+						--        unusedresult = true,
+						--},
 						usePlaceholders = true,
 						completeUnimported = true,
-						staticcheck = true,
 						directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules", "-.nvim" },
 						semanticTokens = true,
 					},
@@ -96,14 +127,14 @@ return {
 				filetypes = { "go", "gomod" },
 			})
 
-			--lspconfig.golangci_lint_ls.setup({
-			--        cmd = { "golangci-lint", "run", "--out-format=json", "-" },
-			--        root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
-			--        filetypes = { "go" },
-			--        init_options = {
-			--                command = "golangci-lint",
-			--        },
-			--})
+			lspconfig.golangci_lint_ls.setup({
+				cmd = { "golangci-lint", "run", "--out-format=json", "-" },
+				root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
+				filetypes = { "go" },
+				init_options = {
+					command = "golangci-lint",
+				},
+			})
 
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
@@ -111,29 +142,6 @@ return {
 
 			lspconfig.pyright.setup({
 				capabilities = capabilities,
-			})
-
-			-- 自动补全配置
-			local cmp = require("cmp")
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<A-b>"] = cmp.mapping.scroll_docs(-4),
-					["<A-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" }, -- LSP 补全
-					{ name = "luasnip" }, -- 代码片段
-					{ name = "buffer" }, -- 缓冲区补全
-					{ name = "path" }, -- 路径补全
-				}),
 			})
 
 			local null_ls = require("null-ls")
