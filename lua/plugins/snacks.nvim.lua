@@ -113,7 +113,26 @@ return {
 					return table.concat(path, "")
 				end
 
-				local path = vim.fn.expand("%:p:h")
+				local path = ""
+
+				if vim.fn.bufname() == "NvimTree_1" then
+					local node = require("nvim-tree.api").tree.get_node_under_cursor()
+
+					if node then
+						if node.type == "file" then
+							local dir_path = vim.fs.dirname(node.absolute_path)
+							print(dir_path)
+
+							path = dir_path
+						else
+							print(node.absolute_path)
+
+							path = node.absolute_path
+						end
+					end
+				else
+					path = vim.fn.expand("%:p:h")
+				end
 
 				path = get_root(path)
 
