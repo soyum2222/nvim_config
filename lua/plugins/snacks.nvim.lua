@@ -115,7 +115,7 @@ return {
 
 				local path = ""
 
-				if vim.fn.bufname() == "NvimTree_1" then
+				if string.find(vim.fn.bufname(), "NvimTree_")  then
 					local node = require("nvim-tree.api").tree.get_node_under_cursor()
 
 					if node then

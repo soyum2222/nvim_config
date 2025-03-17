@@ -17,7 +17,6 @@ else
 		return caps
 	end
 
-
 	require("config.lazy")
 
 	vim.cmd([[
@@ -89,7 +88,7 @@ else
 	vim.cmd([[ noremap – <cmd>lua bufprev()<CR>]])
 	vim.cmd([[ inoremap – <cmd>lua bufprev()<CR>]])
 
-	vim.cmd([[ noremap <leader><tab> :lua bufswitch()<CR>]])
+	vim.cmd([[ noremap <leader><tab> :lua bufswitch()<CR> <CR>]])
 
 	vim.cmd([[ noremap <leader>b :lua require'dap'.toggle_breakpoint()<CR>]])
 	vim.cmd([[ noremap <leader>c :lua DapDebug()<CR>]])
@@ -166,15 +165,27 @@ else
 	)
 
 	vim.g.neovide_input_use_logo = 1
-	vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 
-	vim.api.nvim_set_keymap("", "<S-Insert>", "+p<CR>", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("!", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
-	vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("", "<S-Insert>", "+p<CR>", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("!", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("t", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+	--vim.api.nvim_set_keymap("v", "<S-Insert>", "<C-R>+", { noremap = true, silent = true })
+
+	if vim.g.neovide then
+		vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<D-v>", function()
+			vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
+		end, { noremap = true, silent = true })
+
+		vim.keymap.set({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<S-Insert>", function()
+			vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
+		end, { noremap = true, silent = true })
+
+		vim.g.neovide_cursor_vfx_mode = "ripple"
+	end
 
 	function tabnew()
 		last_tab = vim.api.nvim_get_current_tabpage()
@@ -208,23 +219,26 @@ else
 	end
 
 	function bufnext()
-		last_buffer = vim.fn.bufnr("%")
-		print(last_buffer)
+		--last_buffer = vim.fn.bufnr("%")
+		--print(last_buffer)
 		vim.api.nvim_command("BufferNext")
+		--vim.api.nvim_command("BufferLineCycleNext")
 	end
 
 	function bufprev()
-		last_buffer = vim.fn.bufnr("%")
-		print(last_buffer)
-
+		--last_buffer = vim.fn.bufnr("%")
+		--print(last_buffer)
 		vim.api.nvim_command("BufferPrevious")
+		--vim.api.nvim_command("BufferLineCyclePrev")
 	end
 
 	-- 切换到上一次的标签页
 	function bufswitch()
-		local_last_buffer = vim.fn.bufnr("%")
-		vim.cmd("buffer " .. last_buffer)
-		last_buffer = local_last_buffer
+		--local_last_buffer = vim.fn.bufnr("%")
+		--vim.cmd("buffer " .. last_buffer)
+		--last_buffer = local_last_buffer
+		--
+		vim.api.nvim_command("Telescope oldfiles")
 	end
 
 	function FileFmt()
@@ -251,36 +265,36 @@ else
 		--vim.api.nvim_exec([[update]], true)
 	end
 
-	function tabprev()
-		last_tab = vim.api.nvim_get_current_tabpage()
-		vim.api.nvim_command("tabprev")
-	end
+	--function tabprev()
+	--        last_tab = vim.api.nvim_get_current_tabpage()
+	--        vim.api.nvim_command("tabprev")
+	--end
 
-	function tabswitch()
-		local_last_tab = vim.api.nvim_get_current_tabpage()
-		vim.api.nvim_set_current_tabpage(last_tab)
-		last_tab = local_last_tab
-	end
+	--function tabswitch()
+	--        local_last_tab = vim.api.nvim_get_current_tabpage()
+	--        vim.api.nvim_set_current_tabpage(last_tab)
+	--        last_tab = local_last_tab
+	--end
 
-	function bufnext()
-		last_buffer = vim.fn.bufnr("%")
-		print(last_buffer)
-		vim.api.nvim_command("BufferNext")
-	end
+	--function bufnext()
+	--        last_buffer = vim.fn.bufnr("%")
+	--        print(last_buffer)
+	--        vim.api.nvim_command("BufferNext")
+	--end
 
-	function bufprev()
-		last_buffer = vim.fn.bufnr("%")
-		print(last_buffer)
+	--function bufprev()
+	--        last_buffer = vim.fn.bufnr("%")
+	--        print(last_buffer)
 
-		vim.api.nvim_command("BufferPrevious")
-	end
+	--        vim.api.nvim_command("BufferPrevious")
+	--end
 
 	-- 切换到上一次的标签页
-	function bufswitch()
-		local_last_buffer = vim.fn.bufnr("%")
-		vim.cmd("buffer " .. last_buffer)
-		last_buffer = local_last_buffer
-	end
+	--function bufswitch()
+	--        local_last_buffer = vim.fn.bufnr("%")
+	--        vim.cmd("buffer " .. last_buffer)
+	--        last_buffer = local_last_buffer
+	--end
 
 	function FileFmt()
 		local file_type = vim.bo.filetype

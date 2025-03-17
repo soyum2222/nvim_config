@@ -110,6 +110,7 @@ return {
 				},
 			})
 
+			local lspconfig = require("lspconfig")
 			local configs = require("lspconfig/configs")
 
 			if not configs.golangcilsp then
@@ -127,14 +128,31 @@ return {
 				filetypes = { "go", "gomod" },
 			})
 
-			lspconfig.golangci_lint_ls.setup({
-				cmd = { "golangci-lint", "run", "--out-format=json", "-" },
-				root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
-				filetypes = { "go" },
-				init_options = {
-					command = "golangci-lint",
-				},
-			})
+			--local configs = require("lspconfig/configs")
+
+			--if not configs.golangcilsp then
+			--        configs.golangcilsp = {
+			--                default_config = {
+			--                        cmd = { "golangci-lint-langserver" },
+			--                        root_dir = lspconfig.util.root_pattern(".git", "go.mod"),
+			--                        init_options = {
+			--                                command = { "golangci-lint", "run", "--out-format", "json", "--issues-exit-code=1" },
+			--                        },
+			--                },
+			--        }
+			--end
+			--lspconfig.golangci_lint_ls.setup({
+			--        filetypes = { "go", "gomod" },
+			--})
+
+			--lspconfig.golangci_lint_ls.setup({
+			--        cmd = { "golangci-lint"},
+			--        root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
+			--        filetypes = { "go" },
+			--        init_options = {
+			--                command = "golangci-lint",
+			--        },
+			--})
 
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
