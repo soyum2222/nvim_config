@@ -365,4 +365,9 @@ else
 			GitUi()
 		end
 	end, { nargs = 1, desc = "Open Git UI with an argument" })
+
+
+	vim.api.nvim_create_user_command("Session", function(opts)
+		require("persistence").select()
+	end, {})
 end
