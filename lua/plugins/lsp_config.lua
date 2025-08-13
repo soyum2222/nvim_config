@@ -162,6 +162,12 @@ return {
 				capabilities = capabilities,
 			})
 
+
+			lspconfig.clangd.setup{
+				capabilities = capabilities,
+			}
+
+
 			local null_ls = require("null-ls")
 			null_ls.setup({
 				sources = {
