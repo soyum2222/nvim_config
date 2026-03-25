@@ -95,7 +95,7 @@ return {
 				local function get_root(cwd)
 					local status, job = pcall(require, "plenary.job")
 					if not status then
-						return fn.system("git rev-parse --show-toplevel")
+						return vim.fn.system("git rev-parse --show-toplevel")
 					end
 
 					local gitroot_job = job:new({
@@ -137,6 +137,19 @@ return {
 				path = get_root(path)
 
 				Snacks.terminal({ "lazygit", "-p", path }, {})
+				
+				-- 延迟进入插入模式，确保终端完全打开
+				vim.defer_fn(function()
+					-- 查找终端窗口并切换到它
+					for _, win in ipairs(vim.api.nvim_list_wins()) do
+						local buf = vim.api.nvim_win_get_buf(win)
+						if vim.api.nvim_buf_get_option(buf, "buftype") == "terminal" then
+							vim.api.nvim_set_current_win(win)
+							vim.cmd("startinsert")
+							break
+						end
+					end
+				end, 150)
 			end,
 			desc = "Lazygit",
 		},

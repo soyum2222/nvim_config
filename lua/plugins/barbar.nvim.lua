@@ -24,9 +24,9 @@ return {
 			--  - middle-click: delete buffer
 			clickable = true,
 
-			-- Excludes buffers from the tabline
-			exclude_ft = { "javascript" },
-			exclude_name = { "package.json" },
+		-- Excludes buffers from the tabline
+		exclude_ft = {},
+		exclude_name = {},
 
 			-- A buffer to this direction will be focused (if it exists) when closing the current buffer.
 			-- Valid options are 'left' (the default), 'previous', and 'right'
