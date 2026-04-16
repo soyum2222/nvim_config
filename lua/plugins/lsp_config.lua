@@ -53,8 +53,34 @@ return {
 				capabilities = require("cmp_nvim_lsp").default_capabilities(),
 			})
 
+			-- lua_ls 配置
+			vim.lsp.config('lua_ls', {
+				cmd = { "lua-language-server" },
+				filetypes = { "lua" },
+				settings = {
+					Lua = {
+						runtime = { version = "LuaJIT" },
+						workspace = {
+							checkThirdParty = false,
+							library = { vim.env.VIMRUNTIME },
+						},
+						completion = { callSnippet = "Replace" },
+						diagnostics = { disable = { "missing-fields" } },
+					},
+				},
+			})
+
+			-- pyright 配置
+			vim.lsp.config('pyright', {
+				cmd = { "pyright-langserver", "--stdio" },
+				filetypes = { "python" },
+			})
+
 			-- gopls 配置
 			vim.lsp.config('gopls', {
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				root_markers = { "go.mod", ".git" },
 				settings = {
 					gopls = {
 						analyses = {
@@ -98,13 +124,10 @@ return {
 
 			-- ts_ls 配置
 			vim.lsp.config('ts_ls', {
+				cmd = { "typescript-language-server", "--stdio" },
+				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 				-- 正确识别项目根目录，LSP 能索引整个项目
-				root_dir = require("lspconfig").util.root_pattern(
-					"package.json",  -- npm/yarn 项目
-					"tsconfig.json", -- TypeScript 项目
-					"jsconfig.json", -- JavaScript 项目
-					".git"           -- git 仓库根目录
-				),
+				root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
 				single_file_support = true,
 				init_options = {
 					preferences = {
@@ -160,14 +183,13 @@ return {
 			local ra_cmd = (vim.fn.executable(mason_ra) == 1) and mason_ra or "rust-analyzer"
 			vim.lsp.config('rust_analyzer', {
 				cmd = { ra_cmd },
+				filetypes = { "rust" },
 				settings = {
 					["rust-analyzer"] = {
 						cargo = {
 							allFeatures = true,
 						},
-						checkOnSave = {
-							command = "clippy",
-						},
+						checkOnSave = true,
 						procMacro = {
 							enable = true,
 						},
